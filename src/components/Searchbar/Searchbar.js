@@ -1,23 +1,23 @@
 import React from 'react';
 // import propTypes from 'prop-types';
-// import s from './Filter.module.css';
+import s from 'index.css';
 
 
 
 
 const Searchbar = () => {
     return (
-        <header class="searchbar">
-            <form class="form">
-                <button type="submit" class="button">
-                <span class="button-label">Search</span>
+        <header className={s.Searchbar}>
+            <form className={s.SearchForm}>
+                <button type="submit" className={s.SearchFormButton}>
+                <span className="button-label">Search</span>
                 </button>
 
                 <input
-                class="input"
+                className={s.SearchFormInput}
                 type="text"
-                autocomplete="off"
-                autofocus
+                // autocomplete="off"
+                // autofocus
                 placeholder="Search images and photos"
                 />
             </form>
