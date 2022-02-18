@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import Searchbar from './Searchbar/Searchbar';
 import ImageGallery from './ImageGallery/ImageGallery';
 // import ImageGalleryItem from './ImageGalleryItem/ImageGalleryItem';
-// import Button from './Button/Button';
-// import Loader from './Loader/Loader';
+import Button from './Button/Button';
+import Loader from './Loader/Loader';
 // import Modal from './Modal/Modal';
 
 
@@ -13,8 +13,8 @@ class App extends Component {
       <>
         <Searchbar />
         <ImageGallery/>
-        {/* <Button /> */}
-        {/* <Loader /> */}
+        <Button />
+        <Loader />
         {/* <Modal /> */}
       </>
     );

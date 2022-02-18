@@ -71,7 +71,7 @@ img {
   overflow: hidden;
 }
 
-.SearchFormButton {
+.SearchForm-button {
   display: inline-block;
   width: 48px;
   height: 48px;
@@ -86,7 +86,7 @@ img {
   outline: none;
 }
 
-.SearchFormButton:hover {
+.SearchForm-button:hover {
   opacity: 1;
 }
 
@@ -102,7 +102,7 @@ img {
   border: 0;
 }
 
-.SearchFormInput {
+.SearchForm-input {
   display: inline-block;
   width: 100%;
   font: inherit;
@@ -113,7 +113,7 @@ img {
   padding-right: 4px;
 }
 
-.SearchFormInput::placeholder {
+.SearchForm-input::placeholder {
   font: inherit;
   font-size: 18px;
 }
@@ -180,6 +180,12 @@ img {
 /*
 * Стили компонента Buton (Load more)
 */
+
+.buttonWrap {
+  text-align: center;
+  padding-bottom: 20px;
+}
+
 .Button {
   padding: 8px 16px;
   border-radius: 2px;
@@ -204,4 +210,13 @@ img {
 .Button:hover,
 .Button:focus {
   background-color: #303f9f;
+}
+
+/*
+ * Стили компонента Loader
+ */
+
+.loaderWrap {
+  display: flex;
+  justify-content: center;
 }
