@@ -8,13 +8,36 @@ import Loader from './Loader/Loader';
 
 
 class App extends Component {
+  state = {
+    searchQuery: '',
+    page: 1,
+    loading: false,
+  }
+
+  handelFormSubmit = searchQuery => {
+    this.setState({
+      searchQuery,
+      page: 1,
+    });
+  };
+
+  componentDidMount() {
+    this.setState({loading: true})
+  }
+
+  onLoadMore = () => {
+    this.setState(prevState => ({ page: prevState.page + 1 }));
+  };
+
   render() {
+    // const { loading } = this.state;
     return (
       <>
-        <Searchbar />
+        <Searchbar onSubmit={this.handelFormSubmit} />
         <ImageGallery/>
-        <Button />
+        
         <Loader />
+        <Button onLoadMore={this.onLoadMore} />
         {/* <Modal /> */}
       </>
     );
