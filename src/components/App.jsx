@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import Searchbar from './Searchbar/Searchbar';
-import ImageGallery from './ImageGallery/ImageGallery';
-import Button from './Button/Button';
-import Loader from './Loader/Loader';
-import Error from './Error/Error';
+import Searchbar from './Searchbar';
+import ImageGallery from './ImageGallery';
+import Button from './Button';
+import Loader from './Loader';
+import Error from './Error';
 import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Api from 'services/imagesApi';
@@ -15,7 +15,7 @@ const status = {
   RESOLVED: 'resolved',
 };
 
-export default class App extends Component {
+export class App extends Component {
   state = {
     searchQuery: '',
     page: 1,
@@ -32,7 +32,9 @@ export default class App extends Component {
   };
 
   onLoadMore = () => {
-    this.setState(prevState => ({ page: prevState.page + 1 }));
+    this.setState(prevState => ({
+      page: prevState.page + 1,
+    }));
   };
 
   componentDidUpdate(prevProps, prevState) { 
@@ -51,17 +53,20 @@ export default class App extends Component {
       this.fetchGallery(nextImages, nextPage);
     }
 
-    // if (nextPage >= 1) {
-    //   window.scrollTo({
-    //     top: document.documentElement.scrollHeight,
-    //     behavior: 'smooth',
-    //   });
-    // }
+    if (nextPage >= 1) {
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: 'smooth',
+      });
+    }
   }
+
+
  
   fetchGallery(nextImages, nextPage) {
     Api.fetchGallery(nextImages, nextPage)
-        .then(data => {this.setState(prevState => {
+      .then(data => {
+        this.setState(prevState => {
           return {
             prevState,
             images: [...prevState.images, ...data.hits],
@@ -111,4 +116,4 @@ export default class App extends Component {
   }
 };
 
-// export default App;
+export default App;
