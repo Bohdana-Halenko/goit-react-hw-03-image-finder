@@ -1,9 +1,14 @@
 import React from 'react';
 
-const Button = () => {
+
+const Button = ({onClick}) => {
     return (
         <div className='buttonWrap'>
-            <button type='button' className='Button'>
+            <button
+                type='button'
+                className='Button'
+                onClick={onClick}
+            >
                 Load more
             </button>
         </div>
