@@ -65,7 +65,7 @@ export default class App extends Component{
     // Загружаем больше картинок
     if (prevPage !== nextPage && nextPage !== 1) {
       this.fetchGallery(nextImages, nextPage);
-    }    
+    }  
   }
 
   fetchGallery(nextImages, nextPage) {
@@ -76,7 +76,7 @@ export default class App extends Component{
       searchQuery: nextImages,};
     });
     })
-    .catch(error => this.setState({ error, status: status.REJECTED }));
+    .catch((error) => this.setState({ error }));
   }
  
 
@@ -87,7 +87,7 @@ export default class App extends Component{
       return (
         <>
           <Searchbar onSubmit={this.handelFormSubmit} />
-          <ToastContainer autoClose={5000} theme={'colored'} />
+          <ToastContainer autoClose={4000} theme={'colored'} />
         </>);
     }
 
@@ -95,8 +95,12 @@ export default class App extends Component{
       return <Loader />
     }
 
-    if (status === 'rejected') { 
-      return <Error message = {error.message }/>;
+    if (status === 'rejected') {
+      return (
+        <>
+          <Error message={error.message} />
+          <ToastContainer autoClose={4000} theme={'colored'} />
+        </> )
     }
 
     if (status === 'resolved') {
@@ -105,7 +109,7 @@ export default class App extends Component{
           <Searchbar onSubmit={this.handelFormSubmit} />
           <ImageGallery images={images} toggleModal={this.toggleModal} />
           {this.state.showModal && (<Modal image={bigImage} onClickModal={this.toggleModal}/>)}
-          {images.length !== 0 && (<Button onClick={this.onLoadMore} />)}
+          {images.length >= 12 && (<Button onClick={this.onLoadMore} />)}
           <ToastContainer autoClose={4000} theme={'colored'} />
         </div>
       );
