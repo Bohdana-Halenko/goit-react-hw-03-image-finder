@@ -21,6 +21,6 @@ function ImageGallery({ toggleModal, images }) {
 
 ImageGallery.propTypes = {
   images: PropTypes.array,
-  onClickItem: PropTypes.func,
+  toggleModal: PropTypes.func,
 };
 export default ImageGallery;

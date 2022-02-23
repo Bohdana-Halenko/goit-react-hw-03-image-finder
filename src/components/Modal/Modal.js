@@ -39,6 +39,5 @@ export default class Modal extends Component {
 }
 
 Modal.propTypes = {
-  onClick: PropTypes.func,
   image: PropTypes.string.isRequired,
 };

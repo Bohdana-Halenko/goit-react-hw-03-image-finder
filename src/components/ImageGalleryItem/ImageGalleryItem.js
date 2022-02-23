@@ -16,8 +16,8 @@ const ImageGalleryItem = ({id, webformatURL, tags, largeImageURL, onClickItem,})
 
 ImageGalleryItem.propTypes = {
   id: PropTypes.number,
-  tags: PropTypes.string.isRequired,
   webformatURL: PropTypes.string.isRequired,
+  tags: PropTypes.string.isRequired,
   largeImageURL: PropTypes.string.isRequired,
   onClickItem: PropTypes.func,
 };
