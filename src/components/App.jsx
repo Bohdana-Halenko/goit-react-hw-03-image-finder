@@ -5,9 +5,10 @@ import Button from './Button';
 import Loader from './Loader';
 import Error from './Error';
 import Modal from './Modal';
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Api from 'services/imagesApi';
+// import fetchGallery from '../services/imagesApi';
+import api from 'services/imagesApi';
 
 const status = {
   IDLE: 'idle',
@@ -69,14 +70,17 @@ export default class App extends Component{
   }
 
   fetchGallery(nextImages, nextPage) {
-    Api.fetchGallery(nextImages, nextPage)
-    .then(data => {this.setState(prevState => {
-      return {prevState, status: status.RESOLVED,
-      images: [...prevState.images, ...data.hits], 
-      searchQuery: nextImages,};
-    });
-    })
-    .catch((error) => this.setState({ error }));
+    api.fetchGallery(nextImages, nextPage)
+      .then(data => {
+        this.setState(prevState => {
+          return {
+            prevState, status: status.RESOLVED,
+            images: [...prevState.images, ...data.hits],
+            searchQuery: nextImages,
+          };
+        });
+      })
+    .catch((error) => {toast.error(error.message || 'Something  went wrong!');});
   }
  
 
