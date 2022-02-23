@@ -5,7 +5,7 @@ import Button from './Button';
 import Loader from './Loader';
 import Error from './Error';
 import Modal from './Modal';
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 // import fetchGallery from '../services/imagesApi';
 import api from 'services/imagesApi';
@@ -66,7 +66,7 @@ export default class App extends Component{
     // Загружаем больше картинок
     if (prevPage !== nextPage && nextPage !== 1) {
       this.fetchGallery(nextImages, nextPage);
-    }  
+    }
   }
 
   fetchGallery(nextImages, nextPage) {
@@ -80,7 +80,7 @@ export default class App extends Component{
           };
         });
       })
-    .catch((error) => {toast.error(error.message || 'Something  went wrong!');});
+    .catch(error => this.setState({ error, status: status.REJECTED }));
   }
  
 
