@@ -17,7 +17,7 @@ const status = {
   RESOLVED: 'resolved',
 };
 
-export default class App extends Component{
+export default class App extends Component {
   state = {
     searchQuery: '',
     page: 1,
@@ -26,6 +26,7 @@ export default class App extends Component{
     status: status.IDLE,
     showModal: false,
     bigImage: '',
+    totalHits: 1,
   };
 
   toggleModal = largeImageURL => {
@@ -34,7 +35,7 @@ export default class App extends Component{
       bigImage: largeImageURL,
     }));
   };
-  
+
 
   handelFormSubmit = searchQuery => {
     this.setState({
@@ -77,12 +78,13 @@ export default class App extends Component{
             prevState, status: status.RESOLVED,
             images: [...prevState.images, ...data.hits],
             searchQuery: nextImages,
+            totalHits: data.totalHits,
           };
         });
       })
-    .catch(error => this.setState({ error, status: status.REJECTED }));
+      .catch(error => this.setState({ error, status: status.REJECTED }));
   }
- 
+
 
   render() {
     const { images, bigImage, status, error } = this.state;
@@ -95,7 +97,7 @@ export default class App extends Component{
         </>);
     }
 
-    if (status === 'pending') { 
+    if (status === 'pending') {
       return <Loader />
     }
 
@@ -104,7 +106,7 @@ export default class App extends Component{
         <>
           <Error message={error.message} />
           <ToastContainer autoClose={4000} theme={'colored'} />
-        </> )
+        </>)
     }
 
     if (status === 'resolved') {
@@ -112,8 +114,8 @@ export default class App extends Component{
         <div>
           <Searchbar onSubmit={this.handelFormSubmit} />
           <ImageGallery images={images} toggleModal={this.toggleModal} />
-          {this.state.showModal && (<Modal image={bigImage} onClickModal={this.toggleModal}/>)}
-          {images.length >= 12 && (<Button onClick={this.onLoadMore} />)}
+          {this.state.showModal && (<Modal image={bigImage} onClickModal={this.toggleModal} />)}
+          {this.state.images.length !==this.state.totalHits && (<Button onClick={this.onLoadMore} />)}
           <ToastContainer autoClose={4000} theme={'colored'} />
         </div>
       );
