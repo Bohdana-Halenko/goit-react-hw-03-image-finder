@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import Searchbar from './Searchbar';
 import ImageGallery from './ImageGallery';
 import Button from './Button';
 import Loader from './Loader';
 import Error from './Error';
-import { ToastContainer} from 'react-toastify';
+import Modal from './Modal';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Api from 'services/imagesApi';
 
@@ -15,14 +16,24 @@ const status = {
   RESOLVED: 'resolved',
 };
 
-export class App extends Component {
+export default class App extends Component{
   state = {
     searchQuery: '',
     page: 1,
     images: [],
-    error: '',
+    error: null,
     status: status.IDLE,
+    showModal: false,
+    bigImage: '',
   };
+
+  toggleModal = largeImageURL => {
+    this.setState(({ showModal, bigImage }) => ({
+      showModal: !showModal,
+      bigImage: largeImageURL,
+    }));
+  };
+  
 
   handelFormSubmit = searchQuery => {
     this.setState({
@@ -37,83 +48,67 @@ export class App extends Component {
     }));
   };
 
-  componentDidUpdate(prevProps, prevState) { 
+  componentDidUpdate(prevProps, prevState) {
     const prevImages = prevState.searchQuery;
     const nextImages = this.state.searchQuery;
+
     const prevPage = prevState.page;
     const nextPage = this.state.page;
 
     if (prevImages !== nextImages) {
       this.setState({
-        status: status.PENDING, page: 1, images: [], });
+        status: status.PENDING, page: 1, images: [],
+      });
       this.fetchGallery(nextImages, nextPage);
     }
 
+    // Загружаем больше картинок
     if (prevPage !== nextPage && nextPage !== 1) {
       this.fetchGallery(nextImages, nextPage);
-    }
-
-    if (nextPage >= 1) {
-      window.scrollTo({
-        top: document.documentElement.scrollHeight,
-        behavior: 'smooth',
-      });
-    }
+    }    
   }
 
-
- 
   fetchGallery(nextImages, nextPage) {
     Api.fetchGallery(nextImages, nextPage)
-      .then(data => {
-        this.setState(prevState => {
-          return {
-            prevState,
-            images: [...prevState.images, ...data.hits],
-            status: status.RESOLVED,
-            searchQuery: nextImages,
-          };
-        });
-      })
-      .catch(error => this.setState({ error, status: status.REJECTED }));
+    .then(data => {this.setState(prevState => {
+      return {prevState, status: status.RESOLVED,
+      images: [...prevState.images, ...data.hits], 
+      searchQuery: nextImages,};
+    });
+    })
+    .catch(error => this.setState({ error, status: status.REJECTED }));
   }
+ 
 
   render() {
-    const { images, status} = this.state;
+    const { images, bigImage, status, error } = this.state;
 
-    if (status === status.IDLE) {
+    if (status === 'idle') {
       return (
-      <>
-        <Searchbar onSubmit={this.handelFormSubmit} />
-        <ToastContainer autoClose={5000} theme={'colored'} />
-      </>)
+        <>
+          <Searchbar onSubmit={this.handelFormSubmit} />
+          <ToastContainer autoClose={5000} theme={'colored'} />
+        </>);
     }
 
-    if (status === status.PENDIND) { 
-      return (
-        <Loader />
-      );
+    if (status === 'pending') { 
+      return <Loader />
     }
 
-    if (status === status.REJECTED) { 
-      return (
-        <Error message={this.error.message }/>);
+    if (status === 'rejected') { 
+      return <Error message = {error.message }/>;
     }
 
-    if (status === status.RESOLVED) {
+    if (status === 'resolved') {
       return (
         <div>
           <Searchbar onSubmit={this.handelFormSubmit} />
-          <ImageGallery images={images}/>
-
-          {images.length !== 0 && (
-              <Button onLoadMore={this.onLoadMore} />
-          )}
-          <ToastContainer autoClose={5000} theme={'colored'} />
+          <ImageGallery images={images} toggleModal={this.toggleModal} />
+          {this.state.showModal && (<Modal image={bigImage} onClickModal={this.toggleModal}/>)}
+          {images.length !== 0 && (<Button onClick={this.onLoadMore} />)}
+          <ToastContainer autoClose={4000} theme={'colored'} />
         </div>
       );
     }
   }
 };
-
-export default App;

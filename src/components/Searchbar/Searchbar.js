@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import {toast} from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
 
 
-export default class SearchBar extends Component {
+class SearchBar extends Component {
 
     state = {
         searchQuery: '', 
         page: 1,
+        images: [],
     }
 
     handleNameChange = event => {
@@ -34,7 +34,6 @@ export default class SearchBar extends Component {
                     onSubmit={this.handleSubmit}
                 >
                     <button type="submit" className='SearchForm-button'>
-                        <span className="button-label">Search</span>
                     </button>
 
                     <input
@@ -42,13 +41,14 @@ export default class SearchBar extends Component {
                         type="text"
                         value={this.state.searchQuery}
                         onChange={this.handleNameChange}
-                        autocomplete="off"
-                        autofocus
+                        autoComplete="off"
+                        autoFocus
                         placeholder="Search images and photos"
                     />
                 </form>
-                
             </header>
         );
     }
 };
+
+export default SearchBar;

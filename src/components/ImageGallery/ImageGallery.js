@@ -1,9 +1,9 @@
 import ImageGalleryItem from '../ImageGalleryItem';
 import PropTypes from 'prop-types';
 
-function ImageGallery({ images, toggleModal }) {
+function ImageGallery({ toggleModal, images }) {
   return (
-    <ImageGallery>
+    <ul>
       {images.map(({ id, tags, webformatURL, largeImageURL }) => (
         <ImageGalleryItem
           key={id}
@@ -15,7 +15,7 @@ function ImageGallery({ images, toggleModal }) {
           }}
         />
       ))}
-    </ImageGallery>
+    </ul>
   );
 }
 

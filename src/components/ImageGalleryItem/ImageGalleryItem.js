@@ -2,14 +2,15 @@ import PropTypes from 'prop-types';
 
 const ImageGalleryItem = ({id, webformatURL, tags, largeImageURL, onClickItem,}) => {
   return (
-    <ImageGalleryItem key={id}>
+    <li key={id}>
       <img
+        className='galleryImage'
         alt={tags}
         src={webformatURL}
         data-source={largeImageURL}
         onClick={onClickItem}
       />
-    </ImageGalleryItem>
+    </li>
   );
 };
 
